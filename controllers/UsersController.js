@@ -54,14 +54,12 @@ class UsersController {
   static async getMe(request, response) {
     try {
       const token = request.header('X-Token') || '';
-      if (token) {
-        const userId = await redisClient.get(`auth_${token}`);
-        if (!userId) {
-          return response.status(401).send({ error: 'Unauthorized' });
-        }
-        const user = await dbClient.usersCollection.findOne({ _id: ObjectId(userId) });
-        return response.status(200).send({ email: user.email, id: user._id.toString() });
+      const userId = await redisClient.get(`auth_${token}`);
+      if (!userId) {
+        return response.status(401).send({ error: 'Unauthorized' });
       }
+      const user = await dbClient.usersCollection.findOne({ _id: ObjectId(userId) });
+      return response.status(200).send({ email: user.email, id: user._id.toString() });
     } catch (_err) {
       return response.status(500).send({ error: 'Internal Server error' });
     }

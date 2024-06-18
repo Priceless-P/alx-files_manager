@@ -30,7 +30,7 @@ class FilesController {
         name,
         type,
         isPublic,
-        parentId: ObjectId(parentId),
+        parentId,
       };
       if (type === 'folder') {
         const result = await dbClient.filesCollection.insertOne(fileDoc);
@@ -112,6 +112,27 @@ class FilesController {
     const filePath = path.join(folderPath, fieldId);
     fs.writeFileSync(filePath, Buffer.from(data, 'base64'));
     return filePath;
+  }
+
+  static async getShow(request, response) {
+    const { id } = request.body;
+    const token = request.header('X-Token') || '';
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId) {
+      return response.status(401).send({ error: 'Unauthorized' });
+    }
+    const user = await dbClient.usersCollection.findOne({ _id: ObjectId(userId) });
+    if (!user) {
+      return response.status(401).send({ error: 'Unauthorized' });
+    }
+    const file = await dbClient.filesCollection.findOne({
+      id: ObjectId(id),
+      userId: ObjectId(userId),
+    });
+    if (!file) {
+      return response.status(404).send({ error: 'Not found' });
+    }
+    return response.status(200).send({ file });
   }
 }
 

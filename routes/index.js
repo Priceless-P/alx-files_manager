@@ -36,6 +36,10 @@ function routing(app) {
   router.post('/files', (request, response) => {
     FilesController.postUpload(request, response);
   });
+
+  router.get('/files/:id', (request, response) => {
+    FilesController.getShow(request, response);
+  });
 }
 
 export default routing;

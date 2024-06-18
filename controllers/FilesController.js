@@ -16,13 +16,13 @@ class FilesController {
       const {
         name,
         type,
-        parentId = 0,
+        parentId = '0',
         isPublic = false,
         data,
       } = request.body;
 
       this.validateRequest(name, type, data, response);
-      if (parentId !== 0) {
+      if (parentId !== '0') {
         return await this.checkParentFolder(parentId, response);
       }
       const fileDoc = {
@@ -30,7 +30,7 @@ class FilesController {
         name,
         type,
         isPublic,
-        parentId,
+        parentId: ObjectId(parentId),
       };
       if (type === 'folder') {
         const result = await dbClient.filesCollection.insertOne(fileDoc);

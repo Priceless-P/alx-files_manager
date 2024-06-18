@@ -59,7 +59,7 @@ class UsersController {
         return response.status(401).send({ error: 'Unauthorized' });
       }
       const user = await dbClient.usersCollection.findOne({ _id: ObjectId(userId) });
-      return response.status(200).send({ email: user.email, id: user._id.toString() });
+      return response.status(200).send({ id: user._id.toString(), email: user.email });
     } catch (_err) {
       return response.status(500).send({ error: 'Internal Server error' });
     }

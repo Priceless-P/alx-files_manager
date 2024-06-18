@@ -1,6 +1,7 @@
 import AppController from '../controllers/AppController';
 import UsersController from '../controllers/UsersController';
 import AuthController from '../controllers/AuthController';
+import FilesController from '../controllers/FilesController';
 
 const express = require('express');
 
@@ -30,6 +31,10 @@ function routing(app) {
 
   router.get('/disconnect', (request, response) => {
     AuthController.getDisconnect(request, response);
+  });
+
+  router.post('/files', (request, response) => {
+    FilesController.postUpload(request, response);
   });
 }
 

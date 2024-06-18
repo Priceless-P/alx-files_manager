@@ -25,7 +25,7 @@ class AuthController {
       return response.status(200).send({ token });
     } catch (err) {
       console.error('Error authenticating user:', err);
-      return response.status(500).json({ error: 'Internal Server Error' });
+      return response.status(500).send({ error: 'Internal Server Error' });
     }
   }
 
@@ -34,7 +34,7 @@ class AuthController {
       const token = request.header('X-Token') || '';
       const userId = await redisClient.get(`auth_${token}`);
       if (!userId) {
-        return response.status(401).json({ error: 'Unauthorized' });
+        return response.status(401).send({ error: 'Unauthorized' });
       }
       await redisClient.del(`auth_${token}`);
       return response.status(204).send('Disconnected');

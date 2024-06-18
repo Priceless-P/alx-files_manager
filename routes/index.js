@@ -40,6 +40,9 @@ function routing(app) {
   router.get('/files/:id', (request, response) => {
     FilesController.getShow(request, response);
   });
+  router.get('/files', (request, response) => {
+    FilesController.getIndex(request, response);
+  });
 }
 
 export default routing;

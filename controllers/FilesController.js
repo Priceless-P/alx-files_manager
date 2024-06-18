@@ -10,7 +10,7 @@ const Queue = require('bull');
 
 const fs = require('fs');
 
-const fileQueue = new Queue('fileQueue');
+const fileQueue = new Queue('fileQ');
 
 class FilesController {
   static async postUpload(request, response) {

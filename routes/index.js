@@ -52,7 +52,7 @@ function routing(app) {
     FilesController.putUnpublish(request, response);
   });
 
-  router.put('/files/:id/data', (request, response) => {
+  router.get('/files/:id/data', (request, response) => {
     FilesController.getFile(request, response);
   });
 }
